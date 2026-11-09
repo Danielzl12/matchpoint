@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block titulo %}Registrarse{% endblock %}
+{% block contenido %}
+<h1>Crear cuenta</h1>
+<form method="post" class="form estrecho">
+  <label>Nombre <input name="nombre" required></label>
+  <label>Identificador único <input name="identificador" required></label>
+  <label>Contraseña (mínimo 6 caracteres) <input name="clave" type="password" minlength="6" required></label>
+  <button class="boton">Registrarme</button>
+  <span class="nota">¿Ya tienes cuenta? <a href="/login">Inicia sesión</a></span>
+</form>
+{% endblock %}

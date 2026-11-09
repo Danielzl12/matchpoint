@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block titulo %}Torneos{% endblock %}
+{% block contenido %}
+<h1>Torneos</h1>
+<table>
+  <tr><th>Torneo</th><th>Tipo por defecto</th><th>Equipos</th></tr>
+  {% for t in torneos %}
+  <tr><td>{{ t.nombre }}</td><td>{{ tipos[t.tipo_defecto] }}</td><td>{{ t.equipos }}</td></tr>
+  {% else %}<tr><td colspan="3">Aún no hay torneos.</td></tr>{% endfor %}
+</table>
+<h2>Crear torneo</h2>
+<form method="post" class="form">
+  <label>Nombre del torneo <input name="nombre" required></label>
+  <label>Tipo de pronóstico por defecto
+    <select name="tipo_defecto">{% for k, v in tipos.items() %}<option value="{{ k }}">{{ v }}</option>{% endfor %}</select>
+  </label>
+  <div>Equipos (mínimo 2)
+    <div id="equipos"><input name="equipo" placeholder="Equipo 1"><input name="equipo" placeholder="Equipo 2"></div>
+  </div>
+  <div class="botones">
+    <button type="button" class="boton secundario" id="mas">+ Agregar equipo</button>
+    <button class="boton">Guardar torneo</button>
+  </div>
+</form>
+<script>
+document.getElementById('mas').onclick = function () {
+  var i = document.createElement('input'); i.name = 'equipo'; i.placeholder = 'Otro equipo';
+  document.getElementById('equipos').appendChild(i);
+};
+</script>
+{% endblock %}

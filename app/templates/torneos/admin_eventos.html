@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block titulo %}Eventos{% endblock %}
+{% block contenido %}
+<h1>Eventos</h1>
+<table>
+  <tr><th>Torneo</th><th>Partido</th><th>Cierre</th><th>Inicio</th><th>Estado</th><th>Acciones</th></tr>
+  {% for e in eventos %}
+  <tr>
+    <td>{{ e.torneo }}</td><td>{{ e.local }} vs {{ e.visitante }}</td>
+    <td>{{ e.cierre|fecha }}</td><td>{{ e.inicio|fecha }}</td>
+    <td><span class="estado {{ e|estado }}">{{ e|estado }}</span>
+      {% if e.resultado %}· {{ e.resultado|describir(e.local, e.visitante) }}{% endif %}</td>
+    <td>
+      {% if e|estado == 'cerrado' %}<a class="boton chico" href="/admin/eventos/{{ e.id }}/resultado">Registrar resultado</a>{% endif %}
+      {% if e|estado == 'finalizado' %}<a class="boton chico secundario" href="/admin/eventos/{{ e.id }}/corregir-resultado">Corregir resultado</a>{% endif %}
+      {% if e|estado in ('abierto', 'cerrado') %}<a class="boton chico peligro" href="/admin/eventos/{{ e.id }}/cancelar">Cancelar</a>{% endif %}
+    </td>
+  </tr>
+  {% else %}<tr><td colspan="6">Aún no hay eventos.</td></tr>{% endfor %}
+</table>
+<h2>Programar evento</h2>
+{% if not torneos %}<p>Primero <a href="/admin/torneos">crea un torneo</a>.</p>{% else %}
+<form method="post" class="form">
+  <label>Torneo
+    <select name="torneo_id" id="torneo" required>
+      <option value="">Elige…</option>{% for t in torneos %}<option value="{{ t.id }}">{{ t.nombre }}</option>{% endfor %}
+    </select>
+  </label>
+  <label>Equipo local
+    <select name="local_id" class="eq" required><option value="">Elige…</option>
+      {% for q in equipos %}<option value="{{ q.id }}" data-t="{{ q.torneo_id }}">{{ q.nombre }}</option>{% endfor %}</select>
+  </label>
+  <label>Equipo visitante
+    <select name="visitante_id" class="eq" required><option value="">Elige…</option>
+      {% for q in equipos %}<option value="{{ q.id }}" data-t="{{ q.torneo_id }}">{{ q.nombre }}</option>{% endfor %}</select>
+  </label>
+  <label>Inicio del evento <input type="datetime-local" name="inicio" required></label>
+  <label>Cierre de pronósticos (antes del inicio) <input type="datetime-local" name="cierre" required></label>
+  <label>Tipo de pronóstico
+    <select name="tipo">{% for k, v in tipos.items() %}<option value="{{ k }}">{{ v }}</option>{% endfor %}</select>
+  </label>
+  <label>Costo por pronóstico (créditos) <input name="costo" type="number" min="1" value="10"></label>
+  <label>Premio al acertar (créditos) <input name="premio" type="number" min="1" value="20"></label>
+  <button class="boton">Programar evento</button>
+</form>
+<script>
+var t = document.getElementById('torneo');
+function filtrar() {
+  document.querySelectorAll('.eq').forEach(function (s) {
+    s.querySelectorAll('option[data-t]').forEach(function (o) {
+      var ok = o.dataset.t === t.value; o.hidden = !ok; o.disabled = !ok;
+    });
+    s.value = '';
+  });
+}
+t.onchange = filtrar; filtrar();
+</script>
+{% endif %}
+{% endblock %}
