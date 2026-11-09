@@ -1,0 +1,39 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, sans-serif; color: #222; background: #f6f6f6; }
+.barra { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; padding: 10px 24px; background: #fff; border-bottom: 2px solid #333; }
+.barra nav { display: flex; flex-wrap: wrap; gap: 14px; flex: 1; }
+.barra a { color: #222; text-decoration: none; }
+.barra a:hover { text-decoration: underline; }
+.marca { font-weight: 700; font-size: 20px; }
+.sep { color: #888; font-size: 12px; text-transform: uppercase; align-self: center; }
+.quien { font-size: 14px; color: #555; }
+main { max-width: 980px; margin: 24px auto; padding: 0 16px; }
+h1 { margin-top: 0; }
+.aviso { padding: 10px 14px; border: 1px solid; margin: 0 0 14px; background: #fff; }
+.aviso.error { color: #b00020; border-color: #b00020; }
+.aviso.ok { color: #1b6e2d; border-color: #1b6e2d; }
+table { width: 100%; border-collapse: collapse; background: #fff; margin-bottom: 20px; }
+th, td { border: 1px solid #999; padding: 8px 10px; text-align: left; }
+th { background: #e6e6e6; }
+tr.alerta td { background: #fde7e9; font-weight: 600; }
+.form { display: flex; flex-direction: column; gap: 14px; background: #fff; padding: 20px; border: 1px solid #999; }
+.form.estrecho { max-width: 420px; }
+label { display: flex; flex-direction: column; gap: 4px; font-size: 14px; }
+input, select { padding: 8px; border: 1px solid #777; font-size: 15px; }
+#equipos { display: flex; flex-direction: column; gap: 8px; }
+.botones { display: flex; justify-content: space-between; gap: 10px; }
+.boton { display: inline-block; padding: 8px 16px; background: #1e88e5; color: #fff; border: 1px solid #1e88e5; border-radius: 4px; font-size: 14px; cursor: pointer; text-decoration: none; }
+.boton.secundario { background: #fff; color: #222; border-color: #555; }
+.boton.peligro { background: #b00020; border-color: #b00020; }
+.boton.chico { padding: 4px 10px; font-size: 13px; }
+.estado.abierto { color: #1b6e2d; font-weight: 600; }
+.estado.cerrado { color: #b00020; font-weight: 600; }
+.estado.finalizado { color: #333; font-weight: 600; }
+.estado.cancelado { color: #888; font-weight: 600; text-decoration: line-through; }
+.mas { color: #1b6e2d; font-weight: 600; }
+.menos { color: #b00020; font-weight: 600; }
+.saldo { font-size: 32px; font-weight: 700; margin: 0 0 16px; }
+.pestanas { display: flex; gap: 8px; margin-bottom: 16px; }
+.pestanas a.activa { background: #333; color: #fff; border-color: #333; }
+.dialogo { background: #fff; border: 2px solid #333; padding: 20px; max-width: 460px; }
+.nota { color: #666; font-size: 14px; }

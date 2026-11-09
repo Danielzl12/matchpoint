@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}MatchPoint{% endblock %} · MatchPoint</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="barra">
+  <a class="marca" href="/">MatchPoint</a>
+  {% if usuario %}
+  <nav>
+    <a href="/torneos">Torneos y eventos</a>
+    <a href="/mis-pronosticos">Mis pronósticos</a>
+    <a href="/mi-saldo">Mi saldo</a>
+    {% if usuario.rol == 'admin' %}
+    <span class="sep">Admin</span>
+    <a href="/admin/torneos">Torneos</a>
+    <a href="/admin/eventos">Eventos</a>
+    <a href="/admin/creditos">Créditos</a>
+    <a href="/admin/saldos/corregir">Corregir saldo</a>
+    <a href="/admin/reportes">Reportes</a>
+    {% endif %}
+  </nav>
+  <span class="quien">{{ usuario.nombre }} · {{ usuario.saldo }} créditos · <a href="/salir">Salir</a></span>
+  {% endif %}
+</header>
+<main>
+  {% with mensajes = get_flashed_messages(with_categories=true) %}
+    {% for categoria, mensaje in mensajes %}<p class="aviso {{ categoria }}">{{ mensaje }}</p>{% endfor %}
+  {% endwith %}
+  {% block contenido %}{% endblock %}
+</main>
+</body>
+</html>
