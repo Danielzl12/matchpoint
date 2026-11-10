@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block titulo %}Torneos y eventos{% endblock %}
+{% block contenido %}
+<h1>Torneos y eventos</h1>
+{% for torneo, evs in eventos|groupby('torneo') %}
+<h2>{{ torneo }}</h2>
+<table>
+  <tr><th>Partido</th><th>Cierra</th><th>Estado</th><th>Costo / Premio</th><th></th></tr>
+  {% for e in evs %}
+  <tr>
+    <td>{{ e.local }} vs {{ e.visitante }}</td>
+    <td>{{ e.cierre|fecha }}</td>
+    <td><span class="estado {{ e|estado }}">{{ e|estado }}</span></td>
+    <td>{{ e.costo }} / {{ e.premio }}</td>
+    <td>
+      {% if e.id in mios %}<span class="nota">Ya pronosticaste</span>
+      {% elif e|estado == 'abierto' %}<a class="boton chico" href="/eventos/{{ e.id }}/pronosticar">Pronosticar</a>{% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}<p>Todavía no hay eventos programados.</p>{% endfor %}
+{% endblock %}
