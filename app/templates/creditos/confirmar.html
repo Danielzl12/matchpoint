@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block titulo %}Confirmar asignación{% endblock %}
+{% block contenido %}
+<div class="dialogo">
+  <h1>¿Confirmar asignación?</h1>
+  <p>Vas a asignar <b>{{ monto }}</b> créditos a <b>{{ destino.nombre }}</b>.</p>
+  <form method="post" class="botones">
+    <input type="hidden" name="usuario_id" value="{{ destino.id }}">
+    <input type="hidden" name="monto" value="{{ monto }}">
+    <input type="hidden" name="referencia" value="{{ referencia }}">
+    <a class="boton secundario" href="/admin/creditos">Cancelar</a>
+    <button class="boton" name="accion" value="confirmar">Confirmar</button>
+  </form>
+</div>
+{% endblock %}

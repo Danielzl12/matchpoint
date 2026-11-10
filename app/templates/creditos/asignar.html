@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block titulo %}Asignar créditos{% endblock %}
+{% block contenido %}
+<h1>Asignar créditos</h1>
+<form method="post" class="form estrecho">
+  <label>Usuario
+    <select name="usuario_id" required><option value="">Elige…</option>
+      {% for u in usuarios %}<option value="{{ u.id }}">{{ u.nombre }} ({{ u.identificador }}) · {{ u.saldo }}</option>{% endfor %}
+    </select>
+  </label>
+  <label>Monto de créditos <input name="monto" type="number" min="1" required></label>
+  <button class="boton">Continuar</button>
+</form>
+{% endblock %}

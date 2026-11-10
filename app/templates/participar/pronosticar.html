@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block titulo %}Hacer pronóstico{% endblock %}
+{% block contenido %}
+<h1>{{ ev.local }} vs {{ ev.visitante }}</h1>
+<p>{{ ev.torneo }} · cierra {{ ev.cierre|fecha }} · <span class="estado {{ ev|estado }}">{{ ev|estado }}</span></p>
+{% if ev|estado != 'abierto' %}
+  <p class="aviso error">Este evento ya cerró: no se aceptan pronósticos.</p>
+{% elif ya %}
+  <p class="aviso error">Ya hiciste tu pronóstico para este evento.</p>
+{% else %}
+<form method="post" class="form estrecho">
+  <p>Cuesta <b>{{ ev.costo }}</b> créditos. Si aciertas ganas <b>{{ ev.premio }}</b>. Tu saldo: <b>{{ usuario.saldo }}</b>.</p>
+  {% for o in opciones %}
+  <label style="flex-direction:row;gap:8px"><input type="radio" name="opcion" value="{{ o }}" required>
+    {{ o|describir(ev.local, ev.visitante) }}</label>
+  {% endfor %}
+  <div class="botones"><a class="boton secundario" href="/torneos">Volver</a><button class="boton">Confirmar pronóstico</button></div>
+</form>
+{% endif %}
+{% endblock %}
