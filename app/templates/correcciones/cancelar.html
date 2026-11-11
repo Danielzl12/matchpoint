@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block titulo %}Cancelar evento{% endblock %}
+{% block contenido %}
+<div class="dialogo">
+  <h1>¿Cancelar este evento?</h1>
+  <p>{{ ev.local }} vs {{ ev.visitante }} ({{ ev.torneo }}).</p>
+  <p>Se devolverán los créditos a <b>{{ cantidad }}</b> participante(s) y el evento quedará cancelado.</p>
+  <form method="post" class="botones">
+    <a class="boton secundario" href="/admin/eventos">No, volver</a>
+    <button class="boton peligro">Sí, cancelar y devolver</button>
+  </form>
+</div>
+{% endblock %}
