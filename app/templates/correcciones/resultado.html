@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block titulo %}Corregir resultado{% endblock %}
+{% block contenido %}
+<h1>Corregir resultado: {{ ev.local }} vs {{ ev.visitante }}</h1>
+<p>Resultado actual: <b>{{ ev.resultado|describir(ev.local, ev.visitante) if ev.resultado else '—' }}</b></p>
+<form method="post" class="form estrecho">
+  {% for o in opciones %}
+  <label style="flex-direction:row;gap:8px"><input type="radio" name="resultado" value="{{ o }}" required>
+    {{ o|describir(ev.local, ev.visitante) }}</label>
+  {% endfor %}
+  <p class="nota">Se quitarán los premios ya pagados y se pagarán los del nuevo resultado.</p>
+  <div class="botones"><a class="boton secundario" href="/admin/eventos">Volver</a><button class="boton">Corregir y recalcular</button></div>
+</form>
+{% if historial %}
+<h2>Historial de correcciones</h2>
+<table><tr><th>Fecha</th><th>Antes</th><th>Después</th></tr>
+{% for h in historial %}<tr><td>{{ h.creado_en|fecha }}</td><td>{{ h.resultado_anterior }}</td><td>{{ h.resultado_nuevo }}</td></tr>{% endfor %}
+</table>{% endif %}
+{% endblock %}

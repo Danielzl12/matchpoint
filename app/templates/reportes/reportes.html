@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block titulo %}Reportes{% endblock %}
+{% block contenido %}
+<h1>Reportes</h1>
+<h2>Torneos</h2>
+<table><tr><th>Torneo</th><th>Eventos</th><th>Finalizados</th><th>Pronósticos</th></tr>
+{% for t in torneos %}<tr><td>{{ t.nombre }}</td><td>{{ t.eventos }}</td><td>{{ t.finalizados }}</td><td>{{ t.pronosticos }}</td></tr>
+{% else %}<tr><td colspan="4">Sin torneos.</td></tr>{% endfor %}</table>
+<h2>Participación</h2>
+<table><tr><th>Usuario</th><th>Pronósticos</th><th>Aciertos</th><th>Fallos</th></tr>
+{% for p in participacion %}<tr><td>{{ p.nombre }} ({{ p.identificador }})</td><td>{{ p.pronosticos }}</td><td>{{ p.aciertos }}</td><td>{{ p.fallos }}</td></tr>
+{% else %}<tr><td colspan="4">Sin usuarios.</td></tr>{% endfor %}</table>
+<h2>Saldos</h2>
+{% if con_diferencia %}<p class="aviso error">{{ con_diferencia }} usuario(s) con diferencia entre saldo e historial.</p>{% endif %}
+<table><tr><th>Usuario</th><th>Saldo</th><th>Suma del historial</th><th>Diferencia</th></tr>
+{% for s in saldos %}<tr class="{{ 'alerta' if s.diferencia != 0 }}"><td>{{ s.nombre }} ({{ s.identificador }})</td><td>{{ s.saldo }}</td><td>{{ s.historial }}</td><td>{{ s.diferencia }}</td></tr>
+{% else %}<tr><td colspan="4">Sin usuarios.</td></tr>{% endfor %}</table>
+{% endblock %}

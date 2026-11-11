@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block titulo %}Corregir saldo{% endblock %}
+{% block contenido %}
+<h1>Corregir saldo</h1>
+<form method="post" class="form estrecho">
+  <input type="hidden" name="referencia" value="{{ referencia }}">
+  <label>Usuario
+    <select name="usuario_id" required><option value="">Elige…</option>
+      {% for u in usuarios %}<option value="{{ u.id }}">{{ u.nombre }} ({{ u.identificador }}) · {{ u.saldo }}</option>{% endfor %}
+    </select>
+  </label>
+  <label>Monto (+ suma, − descuenta) <input name="monto" type="number" required></label>
+  <label>Motivo (obligatorio) <input name="motivo" required></label>
+  <p class="nota">No se borra nada: se agrega un movimiento nuevo que explica la corrección.</p>
+  <button class="boton">Registrar corrección</button>
+</form>
+<h2>Últimas correcciones</h2>
+<table><tr><th>Fecha</th><th>Usuario</th><th>Detalle</th><th>Monto</th></tr>
+{% for a in ajustes %}<tr><td>{{ a.creado_en|fecha }}</td><td>{{ a.nombre }}</td><td>{{ a.detalle }}</td><td>{{ a.monto }}</td></tr>
+{% else %}<tr><td colspan="4">Sin correcciones.</td></tr>{% endfor %}</table>
+{% endblock %}
