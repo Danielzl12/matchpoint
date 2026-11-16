@@ -6,16 +6,30 @@ Plataforma de torneos, pronósticos y créditos virtuales (sin dinero real). Pro
 
 ## Cómo correrlo
 
+### En local (SQLite, sin instalar base de datos)
+
 ```bash
 python -m venv .venv
 source .venv/bin/activate          # en Windows: .venv\Scripts\activate
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 python seed.py                     # datos de prueba (opcional)
 python run.py                      # abre http://127.0.0.1:5000
 python -m pytest                   # pruebas automáticas
 ```
 
 Usuarios de prueba (si corriste `seed.py`): `admin / admin123` (administrador) y `ana`, `luis`, `sofia` / `clave123`.
+
+### En producción (Vercel + Supabase)
+
+La app desplegada usa el Postgres de Supabase. Se configura con dos variables de entorno (modelo en `.env.example`):
+
+| Variable | Qué es |
+|---|---|
+| `DATABASE_URL` | Cadena *Transaction pooler* (puerto 6543) del proyecto `matchpoint` en Supabase. Si está definida, la app usa Postgres; si no, SQLite. |
+| `MATCHPOINT_SECRET` | Cadena larga y aleatoria para firmar las sesiones. Obligatoria en producción. |
+
+Pasos completos, lista de verificación y qué falta por comprobar: `docs/DESPLIEGUE.md`.
+URL de la app: _pendiente de publicar_.
 
 ## Historias de usuario y responsables (Sprint 2)
 
@@ -39,7 +53,7 @@ Usuarios de prueba (si corriste `seed.py`): `admin / admin123` (administrador) y
 
 ## Cómo está hecho
 
-- **Python + Flask + SQLite.** No necesita instalar ninguna base de datos.
+- **Python + Flask.** SQLite en local (no hay que instalar nada) y Postgres de Supabase en producción; el mismo código sirve para los dos. Se despliega en Vercel (`api/index.py`, `vercel.json`).
 - **Libro de movimientos que solo crece** (`movimientos`): nada se edita ni se borra (lo bloquean triggers de la base). Las correcciones son movimientos nuevos.
 - **Cada movimiento tiene una `referencia` única:** si un botón se pulsa dos veces, el segundo intento no cobra ni paga otra vez.
 - **Saldo nunca negativo** (restricción en la base) y operaciones en transacción: o se hace todo o no se hace nada.
@@ -56,4 +70,5 @@ Usuarios de prueba (si corriste `seed.py`): `admin / admin123` (administrador) y
 ## Documentación
 
 - `docs/REPARTO.md` — quién sube qué y en qué orden.
+- `docs/DESPLIEGUE.md` — despliegue en Vercel y Supabase, y lista de verificación.
 - `docs/RETROSPECTIVA.md` — retrospectiva Starfish: qué es, cómo se hace y resultados.
