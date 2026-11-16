@@ -1,4 +1,4 @@
-"""MatchPoint: plataforma de torneos, pronósticos y créditos virtuales (Flask + SQLite)."""
+"""MatchPoint: plataforma de torneos, pronósticos y créditos virtuales (Flask + SQLite local / Postgres en Supabase)."""
 import os
 from importlib import import_module
 
@@ -25,10 +25,15 @@ def create_app(config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.update(
         SECRET_KEY=os.environ.get("MATCHPOINT_SECRET", "cambiar-en-produccion"),
-        DATABASE=os.environ.get("MATCHPOINT_DB", os.path.join(app.instance_path, "matchpoint.db")),
+        DATABASE=os.environ.get("DATABASE_URL")  # Postgres (Supabase) en producción
+        or os.environ.get("MATCHPOINT_DB", os.path.join(app.instance_path, "matchpoint.db")),
     )
     if config:
         app.config.update(config)
+    if basedatos.es_postgres(app.config["DATABASE"]) and not app.config.get("TESTING"):
+        if app.config["SECRET_KEY"] == "cambiar-en-produccion":
+            raise RuntimeError("Define MATCHPOINT_SECRET (una cadena larga y secreta) en las variables de entorno.")
+        app.config.update(SESSION_COOKIE_SECURE=True, SESSION_COOKIE_SAMESITE="Lax")
 
     basedatos.init_db(app.config["DATABASE"])
     app.teardown_appcontext(basedatos.cerrar_db)

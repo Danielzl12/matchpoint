@@ -56,4 +56,4 @@ Usuarios de prueba (si corriste `seed.py`): `admin / admin123` (administrador) y
 ## Documentación
 
 - `docs/REPARTO.md` — quién sube qué y en qué orden.
-- `docs/RETROSPECTIVA.md` — técnica de retrospectiva (Starfish), guion de la sesión y resultados.
+- `docs/RETROSPECTIVA.md` — retrospectiva Starfish: qué es, cómo se hace y resultados.

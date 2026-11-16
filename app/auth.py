@@ -1,10 +1,9 @@
 """HU03 Registrarse · HU04 Iniciar sesión. Responsable: Daniel Zuluaga."""
-import sqlite3
 
 from flask import Blueprint, flash, redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from .db import get_db
+from .db import IntegrityError, get_db
 
 bp = Blueprint("auth", __name__)
 
@@ -25,7 +24,7 @@ def registro():
                     "INSERT INTO usuarios (identificador, nombre, clave_hash) VALUES (?, ?, ?)",
                     (ident, nombre, generate_password_hash(clave)),
                 )
-            except sqlite3.IntegrityError:
+            except IntegrityError:
                 flash("Ese identificador ya existe. Elige otro.", "error")
             else:
                 flash("Cuenta creada. Ya puedes iniciar sesión.", "ok")

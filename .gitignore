@@ -4,3 +4,5 @@ __pycache__/
 venv/
 instance/
 .pytest_cache/
+.env
+.vercel/

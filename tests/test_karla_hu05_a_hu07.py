@@ -103,10 +103,10 @@ def test_ledger_idempotente_y_no_negativo(db, escenario):
 
 
 def test_ledger_no_se_puede_borrar_ni_editar(db, escenario):
-    import sqlite3
+    from app.db import ErrorBD
     for sql in ("UPDATE movimientos SET monto = 1", "DELETE FROM movimientos"):
         try:
             db.execute(sql)
             raise AssertionError("debía fallar")
-        except sqlite3.DatabaseError:
+        except ErrorBD:
             pass

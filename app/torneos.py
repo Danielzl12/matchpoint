@@ -1,9 +1,7 @@
 """HU01 Crear torneo y equipos · HU02 Programar evento. Responsable: Daniel Zuluaga."""
-import sqlite3
-
 from flask import Blueprint, flash, redirect, render_template, request
 
-from .db import get_db, transaccion
+from .db import IntegrityError, get_db, transaccion
 from .reglas import OPCIONES, SELECT_EVENTO, NOMBRE_TIPO, entero, normalizar_fecha
 from .seguridad import admin_requerido
 
@@ -44,7 +42,7 @@ def admin_torneos():
                         db.execute(
                             "INSERT INTO equipos (torneo_id, nombre) VALUES (?, ?)", (torneo_id, equipo)
                         )
-            except sqlite3.IntegrityError:
+            except IntegrityError:
                 flash("Ya existe un torneo con ese nombre.", "error")
             else:
                 if repetidos:
