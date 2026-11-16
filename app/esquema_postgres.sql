@@ -67,11 +67,14 @@ CREATE TABLE IF NOT EXISTS movimientos (
     creado_en   TEXT NOT NULL
 );
 
-CREATE OR REPLACE FUNCTION movimientos_inmutable() RETURNS trigger AS $$
+CREATE OR REPLACE FUNCTION movimientos_inmutable() RETURNS trigger
+LANGUAGE plpgsql
+SET search_path = ''
+AS $$
 BEGIN
     RAISE EXCEPTION 'El libro de movimientos no se puede modificar ni borrar';
 END;
-$$ LANGUAGE plpgsql;
+$$;
 
 DROP TRIGGER IF EXISTS movimientos_no_cambios ON movimientos;
 CREATE TRIGGER movimientos_no_cambios BEFORE UPDATE OR DELETE ON movimientos
