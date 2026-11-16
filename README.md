@@ -1,74 +1,68 @@
 # MatchPoint
 
-Plataforma de torneos, pronósticos y créditos virtuales (sin dinero real). Proyecto del caso Nexo Digital Labs — Equipo 3, Sprint 2.
+Plataforma web de torneos y pronósticos deportivos con créditos virtuales (sin dinero real). Caso Nexo Digital Labs · Equipo 3 · Sprint 2.
 
-**Equipo:** Daniel Zuluaga (PO) · Karla Nicole Martín (SM) · Dana Valentina Quevedo y Juan Sebastián Barreto (desarrollo).
+## Enlaces
 
-## Cómo correrlo
-
-### En local (SQLite, sin instalar base de datos)
-
-```bash
-python -m venv .venv
-source .venv/bin/activate          # en Windows: .venv\Scripts\activate
-pip install -r requirements-dev.txt
-python seed.py                     # datos de prueba (opcional)
-python run.py                      # abre http://127.0.0.1:5000
-python -m pytest                   # pruebas automáticas
-```
-
-Usuarios de prueba (si corriste `seed.py`): `admin / admin123` (administrador) y `ana`, `luis`, `sofia` / `clave123`.
-
-### En producción (Vercel + Supabase)
-
-La app desplegada usa el Postgres de Supabase. Se configura con dos variables de entorno (modelo en `.env.example`):
-
-| Variable | Qué es |
+| Recurso | URL |
 |---|---|
-| `DATABASE_URL` | Cadena *Transaction pooler* (puerto 6543) del proyecto `matchpoint` en Supabase. Si está definida, la app usa Postgres; si no, SQLite. |
-| `MATCHPOINT_SECRET` | Cadena larga y aleatoria para firmar las sesiones. Obligatoria en producción. |
+| Aplicación en línea | _pendiente de publicar (Vercel)_ |
+| Código fuente | https://github.com/Danielzl12/matchpoint |
+| Tablero de Trello (sprint y retrospectiva Starfish) | https://trello.com/b/LtNyZnp8/matchpoint |
+| Wiki (backlog, sprints y canvas de equipo) | https://github.com/Danielzl12/matchpoint/wiki |
 
-Pasos completos, lista de verificación y qué falta por comprobar: `docs/DESPLIEGUE.md`.
-URL de la app: _pendiente de publicar_.
+## Equipo
 
-## Historias de usuario y responsables (Sprint 2)
+| Integrante | Rol |
+|---|---|
+| Daniel Zuluaga | Product Owner |
+| Karla Nicole Martín | Scrum Master |
+| Dana Valentina Quevedo | Desarrollo |
+| Juan Sebastián Barreto | Desarrollo |
 
-| HU | Qué hace | Archivo | Responsable |
-|---|---|---|---|
-| 01 | Crear torneo y equipos | `app/torneos.py` | Daniel Zuluaga |
-| 02 | Programar evento | `app/torneos.py` | Daniel Zuluaga |
-| 03 | Registrarse | `app/auth.py` | Daniel Zuluaga |
-| 04 | Iniciar sesión | `app/auth.py` | Daniel Zuluaga |
-| 05 | Ver torneos y eventos | `app/participar.py` | Karla Nicole Martín |
-| 06 | Hacer un pronóstico | `app/participar.py` | Karla Nicole Martín |
-| 07 | Asignar créditos | `app/creditos.py` | Karla Nicole Martín |
-| 08 | Consultar saldo e historial | `app/consultas.py` | Juan Sebastián Barreto |
-| 09 | Ver mis pronósticos | `app/consultas.py` | Juan Sebastián Barreto |
-| 10 | Registrar resultado | `app/resultados.py` | Juan Sebastián Barreto |
-| 11 | Pagar premios | `app/resultados.py` + `app/ledger.py` | Juan Sebastián Barreto |
-| 12 | Cancelar evento y devolver créditos | `app/correcciones.py` | Dana Quevedo |
-| 13 | Corregir resultado | `app/correcciones.py` | Dana Quevedo |
-| 14 | Corregir saldo con motivo | `app/correcciones.py` | Dana Quevedo |
-| 15 | Reportes | `app/reportes.py` | Dana Quevedo |
+## Qué permite hacer
 
-## Cómo está hecho
+- **Administrador:** crear torneos y equipos, programar eventos, registrar resultados, cancelar eventos, corregir resultados y saldos, y consultar reportes.
+- **Participante:** registrarse, iniciar sesión, ver torneos y eventos, hacer un pronóstico con créditos, y consultar su saldo, su historial y sus pronósticos.
+- **Premios:** al registrar el resultado, los créditos se pagan automáticamente a quienes acertaron.
 
-- **Python + Flask.** SQLite en local (no hay que instalar nada) y Postgres de Supabase en producción; el mismo código sirve para los dos. Se despliega en Vercel (`api/index.py`, `vercel.json`).
-- **Libro de movimientos que solo crece** (`movimientos`): nada se edita ni se borra (lo bloquean triggers de la base). Las correcciones son movimientos nuevos.
-- **Cada movimiento tiene una `referencia` única:** si un botón se pulsa dos veces, el segundo intento no cobra ni paga otra vez.
-- **Saldo nunca negativo** (restricción en la base) y operaciones en transacción: o se hace todo o no se hace nada.
-- **Un módulo por persona** para que Git no genere conflictos al unir el trabajo.
+## Acceso de demostración
 
-## Reglas que asumimos (no estaban definidas en las historias)
+| Usuario | Contraseña | Rol |
+|---|---|---|
+| `admin` | `admin123` | Administrador |
+| `ana`, `luis`, `sofia` | `clave123` | Participante (100 créditos) |
 
-- Cada evento tiene costo (10 por defecto) y premio (20 por defecto) en créditos; el administrador puede cambiarlos al programarlo.
+También se puede crear una cuenta nueva desde «Registrarme».
+
+## Historias de usuario del Sprint 2
+
+| HU | Historia | Responsable |
+|---|---|---|
+| 01 | Crear torneo y equipos | Daniel Zuluaga |
+| 02 | Programar evento | Daniel Zuluaga |
+| 03 | Registrarse | Daniel Zuluaga |
+| 04 | Iniciar sesión | Daniel Zuluaga |
+| 05 | Ver torneos y eventos | Karla Nicole Martín |
+| 06 | Hacer un pronóstico | Karla Nicole Martín |
+| 07 | Asignar créditos | Karla Nicole Martín |
+| 08 | Consultar saldo e historial | Juan Sebastián Barreto |
+| 09 | Ver mis pronósticos | Juan Sebastián Barreto |
+| 10 | Registrar resultado | Juan Sebastián Barreto |
+| 11 | Pagar premios | Juan Sebastián Barreto |
+| 12 | Cancelar evento y devolver créditos | Dana Valentina Quevedo |
+| 13 | Corregir resultado | Dana Valentina Quevedo |
+| 14 | Corregir saldo con motivo | Dana Valentina Quevedo |
+| 15 | Reportes | Dana Valentina Quevedo |
+
+## Reglas de negocio asumidas
+
+- Cada evento cuesta 10 créditos y paga 20 por defecto; el administrador puede cambiarlos al programarlo.
 - Un torneo necesita mínimo 2 equipos distintos.
 - Cada usuario hace un solo pronóstico por evento.
-- Un evento se puede cancelar mientras no tenga resultado.
-- Si al corregir un resultado un ganador anterior ya gastó el premio, la corrección se rechaza con un mensaje claro.
+- Un evento solo se puede cancelar mientras no tenga resultado.
+- El saldo nunca queda negativo y los movimientos de créditos no se pueden editar ni borrar: las correcciones se registran como movimientos nuevos.
 
-## Documentación
+## Tecnología
 
-- `docs/REPARTO.md` — quién sube qué y en qué orden.
-- `docs/DESPLIEGUE.md` — despliegue en Vercel y Supabase, y lista de verificación.
-- `docs/RETROSPECTIVA.md` — retrospectiva Starfish: qué es, cómo se hace y resultados.
+Python y Flask, base de datos Postgres (Supabase) y despliegue en Vercel.
