@@ -6,7 +6,7 @@ Plataforma web de torneos y pronósticos deportivos con créditos virtuales (sin
 
 | Recurso | URL |
 |---|---|
-| Aplicación en línea | _pendiente de publicar (Vercel)_ |
+| Aplicación en línea | https://matchpoint-red.vercel.app |
 | Código fuente | https://github.com/Danielzl12/matchpoint |
 | Tablero de Trello (sprint y retrospectiva Starfish) | https://trello.com/b/LtNyZnp8/matchpoint |
 | Wiki (backlog, sprints y canvas de equipo) | https://github.com/Danielzl12/matchpoint/wiki |
