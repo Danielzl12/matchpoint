@@ -10,7 +10,7 @@ Repositorio: https://github.com/Danielzl12/matchpoint (hoy está vacío: solo ti
 2. **Daniel** sube su parte (HU 01–04).
 3. **Karla, Juan y Dana** suben la suya (en cualquier orden entre ellos).
 
-> Las pruebas de Karla, Juan y Dana inician sesión con el módulo de Daniel, y las de Dana reutilizan una función del archivo de Juan. Para que `pytest` pase completo, conviene que los cuatro estén subidos.
+> Cada persona recibe un .zip con sus archivos exactos y un LEEME.txt con los comandos. Para que `pytest` pase completo en `main`, deben estar subidas las cuatro partes.
 
 ## Commit 0 — Base compartida · Daniel
 
@@ -107,5 +107,5 @@ git push -u origin hu12-15-dana
 
 - [ ] Los 4 Pull Requests unidos a `main`.
 - [ ] `python -m pytest` pasa en `main`.
-- [ ] Enlace del tablero de Trello pegado en `docs/RETROSPECTIVA.md`.
-- [ ] La URL del repositorio es la que se publica en la entrega (punto 1). Si piden el enlace de la retro como URL aparte (punto 3), usar el del tablero de Trello.
+- [ ] Retrospectiva hecha en el tablero de Trello (https://trello.com/b/LtNyZnp8/matchpoint) y resultados anotados en `docs/RETROSPECTIVA.md`.
+- [ ] La URL del repositorio es la que se publica en la entrega (punto 1). La retro está en el mismo tablero de Trello, así que ese es el enlace del punto 3.

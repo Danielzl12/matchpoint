@@ -1,9 +1,25 @@
-"""Base de datos SQLite: esquema, conexión y transacciones. Base compartida (la mantiene el PO)."""
+"""Base de datos: esquema, conexión y transacciones. Base compartida (la mantiene el PO).
+
+Dos destinos con la misma interfaz (db.execute("... ?", params), filas con nombre e índice):
+  - SQLite  -> desarrollo local y pruebas (por defecto).
+  - Postgres (Supabase) -> producción en Vercel; se activa con DATABASE_URL.
+"""
 import os
+import re
 import sqlite3
 from contextlib import contextmanager
 
 from flask import current_app, g
+
+try:  # solo hace falta cuando se usa Postgres
+    import psycopg
+except ImportError:  # pragma: no cover
+    psycopg = None
+
+# Para `except IntegrityError:` / `except ErrorBD:` sin importar el motor.
+IntegrityError = (sqlite3.IntegrityError,) + ((psycopg.errors.IntegrityError,) if psycopg else ())
+ErrorBD = (sqlite3.DatabaseError,) + ((psycopg.DatabaseError,) if psycopg else ())
+ESQUEMA_POSTGRES = os.path.join(os.path.dirname(__file__), "esquema_postgres.sql")
 
 ESQUEMA = """
 CREATE TABLE IF NOT EXISTS usuarios (
@@ -88,20 +104,103 @@ CREATE TABLE IF NOT EXISTS resultados_historial (
 """
 
 
-def conectar(ruta):
-    """Abre una conexión nueva. Autocommit: las transacciones se controlan con `transaccion`."""
-    db = sqlite3.connect(ruta, timeout=10, isolation_level=None)
+class Fila(dict):
+    """Fila de Postgres que se comporta como sqlite3.Row: fila["col"], fila[0], dict(fila)."""
+
+    def __getitem__(self, clave):
+        if isinstance(clave, int):
+            return list(self.values())[clave]
+        return super().__getitem__(clave)
+
+
+def _fabrica_filas(cursor):
+    nombres = [c.name for c in cursor.description] if cursor.description else []
+    return lambda valores: Fila(zip(nombres, valores))
+
+
+def _traducir(sql):
+    """SQL escrito para SQLite -> Postgres. Devuelve (sql, pide_id)."""
+    sql = sql.replace("%", "%%")
+    sql = re.sub(r"(?<![:\w]):(\w+)", r"%(\1)s", sql)  # :nombre -> %(nombre)s
+    sql = sql.replace("?", "%s")
+    sql = re.sub(r"GROUP_CONCAT\(", "string_agg(", sql, flags=re.I)
+    sql = sql.replace(
+        "datetime('now', 'localtime')",
+        "to_char(now() AT TIME ZONE 'America/Bogota', 'YYYY-MM-DD HH24:MI:SS')",
+    )
+    pide_id = sql.lstrip().upper().startswith("INSERT") and "RETURNING" not in sql.upper()
+    if pide_id:
+        sql = sql.rstrip().rstrip(";") + " RETURNING id"
+    return sql, pide_id
+
+
+class CursorPG:
+    def __init__(self, cursor, pide_id):
+        self._cur = cursor
+        self.rowcount = cursor.rowcount
+        self.lastrowid = None
+        if pide_id:
+            fila = cursor.fetchone()
+            self.lastrowid = fila["id"] if fila else None
+
+    def fetchone(self):
+        return self._cur.fetchone()
+
+    def fetchall(self):
+        return self._cur.fetchall()
+
+    def __iter__(self):
+        return iter(self._cur)
+
+
+class ConexionPG:
+    """Envuelve psycopg para que el resto de la app use la misma interfaz que con SQLite."""
+
+    def __init__(self, url):
+        # autocommit + prepare_threshold=None: compatible con el pooler de Supabase (puerto 6543).
+        self._c = psycopg.connect(url, autocommit=True, prepare_threshold=None, row_factory=_fabrica_filas)
+
+    def execute(self, sql, params=()):
+        sql, pide_id = _traducir(sql)
+        return CursorPG(self._c.execute(sql, params), pide_id)
+
+    def ejecutar_script(self, sql):
+        self._c.execute(sql)
+
+    def close(self):
+        self._c.close()
+
+
+def es_postgres(destino):
+    return str(destino).startswith(("postgres://", "postgresql://"))
+
+
+def conectar(destino):
+    """Abre una conexión nueva (ruta de SQLite o URL de Postgres).
+    Autocommit: las transacciones se controlan con `transaccion`."""
+    if es_postgres(destino):
+        return ConexionPG(destino)
+    db = sqlite3.connect(destino, timeout=10, isolation_level=None)
     db.row_factory = sqlite3.Row
     db.execute("PRAGMA foreign_keys = ON")
     db.execute("PRAGMA busy_timeout = 10000")
     return db
 
 
-def init_db(ruta):
-    carpeta = os.path.dirname(ruta)
+def init_db(destino):
+    if es_postgres(destino):
+        db = conectar(destino)
+        try:
+            if db.execute("SELECT to_regclass('public.usuarios') AS t").fetchone()["t"] is None:
+                with open(ESQUEMA_POSTGRES, encoding="utf-8") as f:
+                    db.ejecutar_script(f.read())
+        finally:
+            db.close()
+        return
+    carpeta = os.path.dirname(destino)
     if carpeta:
         os.makedirs(carpeta, exist_ok=True)
-    db = conectar(ruta)
+    db = conectar(destino)
     db.execute("PRAGMA journal_mode = WAL")
     db.executescript(ESQUEMA)
     db.close()
@@ -123,7 +222,11 @@ def cerrar_db(_error=None):
 def transaccion(db):
     """Todo o nada. BEGIN IMMEDIATE bloquea a otros escritores, así dos clics o dos
     usuarios a la vez no pueden gastar el mismo saldo ni pagar dos veces un premio."""
-    db.execute("BEGIN IMMEDIATE")
+    if isinstance(db, ConexionPG):
+        db.execute("BEGIN")
+        db.execute("SELECT pg_advisory_xact_lock(7355)")  # un solo escritor a la vez, como BEGIN IMMEDIATE
+    else:
+        db.execute("BEGIN IMMEDIATE")
     try:
         yield db
         db.execute("COMMIT")

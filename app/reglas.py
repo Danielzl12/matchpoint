@@ -1,5 +1,7 @@
 """Reglas y utilidades compartidas (fechas, estados de evento, consultas comunes)."""
+import os
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 # Opciones de pronóstico según el tipo de evento (HU02).
 OPCIONES = {"1X2": ["local", "empate", "visitante"], "ganador": ["local", "visitante"]}
@@ -18,8 +20,16 @@ class ErrorNegocio(Exception):
     """Regla de negocio no cumplida. El mensaje se le muestra tal cual al usuario."""
 
 
+ZONA = ZoneInfo(os.environ.get("MATCHPOINT_TZ", "America/Bogota"))
+
+
+def ahora():
+    """Hora actual en la zona del proyecto (el servidor de Vercel está en UTC)."""
+    return datetime.now(ZONA).replace(tzinfo=None)
+
+
 def ahora_str():
-    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    return ahora().strftime("%Y-%m-%d %H:%M:%S")
 
 
 def normalizar_fecha(texto):

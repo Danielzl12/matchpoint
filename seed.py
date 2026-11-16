@@ -1,15 +1,16 @@
 """Datos de demostración para probar y grabar el review:  python seed.py"""
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from werkzeug.security import generate_password_hash
 
 from app import create_app
 from app.db import conectar, transaccion
+from app.reglas import ahora
 from app.ledger import registrar_movimiento
 
 
 def hora(delta):
-    return (datetime.now() + delta).strftime("%Y-%m-%d %H:%M:%S")
+    return (ahora() + delta).strftime("%Y-%m-%d %H:%M:%S")
 
 
 def main():

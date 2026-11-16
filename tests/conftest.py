@@ -1,4 +1,5 @@
-from datetime import datetime, timedelta
+import os
+from datetime import timedelta
 
 import pytest
 from werkzeug.security import generate_password_hash
@@ -6,14 +7,28 @@ from werkzeug.security import generate_password_hash
 from app import create_app
 from app.db import conectar, transaccion
 from app.ledger import registrar_movimiento
+from app.reglas import ahora
 
 
 def hora(**delta):
-    return (datetime.now() + timedelta(**delta)).strftime("%Y-%m-%d %H:%M:%S")
+    return (ahora() + timedelta(**delta)).strftime("%Y-%m-%d %H:%M:%S")
+
+
+# Con TEST_DATABASE_URL las pruebas corren contra Postgres (tablas vaciadas en cada prueba).
+URL_PG = os.environ.get("TEST_DATABASE_URL")
 
 
 @pytest.fixture()
 def app(tmp_path):
+    if URL_PG:
+        aplicacion = create_app({"DATABASE": URL_PG, "TESTING": True})
+        limpio = conectar(URL_PG)
+        limpio.execute(
+            "TRUNCATE usuarios, torneos, equipos, eventos, pronosticos, movimientos, "
+            "resultados_historial RESTART IDENTITY CASCADE"
+        )
+        limpio.close()
+        return aplicacion
     return create_app({"DATABASE": str(tmp_path / "test.db"), "TESTING": True})
 
 

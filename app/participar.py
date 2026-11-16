@@ -1,9 +1,8 @@
 """HU05 Ver torneos y eventos · HU06 Hacer un pronóstico. Responsable: Karla Nicole Martín."""
-import sqlite3
 
 from flask import Blueprint, abort, flash, redirect, render_template, request
 
-from .db import get_db, transaccion
+from .db import IntegrityError, get_db, transaccion
 from .ledger import SaldoInsuficiente, registrar_movimiento
 from .reglas import OPCIONES, SELECT_EVENTO, ErrorNegocio, cargar_evento, estado_evento
 from .seguridad import login_requerido, usuario_actual
@@ -50,7 +49,7 @@ def pronosticar(evento_id):
                         "VALUES (?, ?, ?, ?, datetime('now', 'localtime'))",
                         (usuario["id"], evento_id, opcion, ev["costo"]),
                     ).lastrowid
-                except sqlite3.IntegrityError:
+                except IntegrityError:
                     raise ErrorNegocio("Ya hiciste tu pronóstico para este evento.") from None
                 registrar_movimiento(
                     db, usuario["id"], "participacion", -ev["costo"],

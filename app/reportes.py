@@ -22,8 +22,8 @@ def reportes():
     participacion = db.execute(
         "SELECT u.nombre, u.identificador, "
         "COUNT(p.id) AS pronosticos, "
-        "COALESCE(SUM(p.estado = 'acertado'), 0) AS aciertos, "
-        "COALESCE(SUM(p.estado = 'fallado'), 0) AS fallos "
+        "COUNT(CASE WHEN p.estado = 'acertado' THEN 1 END) AS aciertos, "
+        "COUNT(CASE WHEN p.estado = 'fallado' THEN 1 END) AS fallos "
         "FROM usuarios u LEFT JOIN pronosticos p ON p.usuario_id = u.id AND p.estado <> 'anulado' "
         "WHERE u.rol = 'usuario' GROUP BY u.id ORDER BY pronosticos DESC, u.nombre"
     ).fetchall()

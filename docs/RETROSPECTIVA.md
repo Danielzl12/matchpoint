@@ -1,8 +1,29 @@
 # Retrospectiva del Sprint 2 — Starfish
 
-**Herramienta:** Trello (tablero «Retrospectiva Sprint 2 — MatchPoint»)
-**Enlace al tablero:** _(pegar aquí la URL cuando se cree)_
+**Herramienta:** Trello (el mismo tablero del proyecto, listas «Retro · …»)
+**Enlace al tablero:** https://trello.com/b/LtNyZnp8/matchpoint
 **Facilita:** Karla Nicole Martín (Scrum Master) · **Participan:** Daniel Zuluaga, Dana Quevedo, Juan Sebastián Barreto
+
+## ¿Qué es esto? (explicación sencilla)
+
+Una **retrospectiva** es una reunión corta, al terminar el sprint, donde el equipo habla de **cómo trabajó** (no del código): qué salió bien, qué salió mal y qué van a cambiar. La guía pide hacerla con una técnica; nosotros usamos **Starfish** («estrella de mar»), que tiene 5 columnas:
+
+| Columna | Pregunta que responde | Ejemplo |
+|---|---|---|
+| Empezar a hacer | ¿Qué deberíamos empezar? | Revisar el código de otro antes de unirlo |
+| Dejar de hacer | ¿Qué deberíamos dejar? | Avisar tarde cuando algo se atrasa |
+| Seguir haciendo | ¿Qué funciona y hay que mantener? | Reunirnos 2 veces por semana |
+| Hacer más | ¿Qué ayuda y queremos hacer más? | Probar antes de subir |
+| Hacer menos | ¿Qué hacemos demasiado? | Reuniones largas |
+
+**Cómo se hace, en 5 pasos (Karla dirige, 45 min):**
+1. Daniel invita a todos al tablero de Trello: https://trello.com/b/LtNyZnp8/matchpoint
+2. En el tablero, a la derecha de «Hecho», están las 6 listas «Retro · …». Cada persona crea tarjetas (una idea por tarjeta) en cada lista.
+3. Se leen las tarjetas entre todos.
+4. Cada quien vota por 3 tarjetas (con un 👍 en la tarjeta).
+5. Las 3 más votadas se pasan a «Retro · Acuerdos» y se anota quién hace qué y para cuándo.
+
+Al terminar, se llena la tabla de resultados de la sección 4 de este documento y se toma una captura del tablero como evidencia.
 
 ## 1. Técnicas investigadas
 
@@ -18,14 +39,14 @@ Fuente de consulta: Retrium, *10 retrospective techniques to try with your agile
 
 ## 2. Tablero en Trello (listas)
 
-Crear un tablero con estas 5 listas, en este orden:
+La retrospectiva se hace en el mismo tablero del proyecto, en estas 6 listas (a la derecha de «Hecho»):
 
-1. 🟢 **Empezar a hacer**
-2. 🔴 **Dejar de hacer**
-3. 🔵 **Seguir haciendo**
-4. ⬆️ **Hacer más**
-5. ⬇️ **Hacer menos**
-6. ✅ **Acuerdos (máx. 3)** — lista extra donde quedan las acciones elegidas, con responsable y fecha.
+1. 🟢 **Retro · Empezar a hacer**
+2. 🔴 **Retro · Dejar de hacer**
+3. 🔵 **Retro · Seguir haciendo**
+4. ⬆️ **Retro · Hacer más**
+5. ⬇️ **Retro · Hacer menos**
+6. ✅ **Retro · Acuerdos (máx. 3)** — acciones elegidas, con responsable y fecha.
 
 Cada persona crea tarjetas con una idea cada una. Sin nombres obligatorios: la idea importa más que quién la dijo.
 

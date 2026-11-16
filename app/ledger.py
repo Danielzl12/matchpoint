@@ -1,6 +1,5 @@
 """Libro mayor de créditos (append-only). Base compartida: todos los módulos que mueven créditos lo usan."""
-import sqlite3
-
+from .db import IntegrityError
 from .reglas import ahora_str
 
 
@@ -24,7 +23,7 @@ def registrar_movimiento(db, usuario_id, tipo, monto, detalle, referencia):
     )
     try:
         db.execute("UPDATE usuarios SET saldo = saldo + ? WHERE id = ?", (monto, usuario_id))
-    except sqlite3.IntegrityError:
+    except IntegrityError:
         raise SaldoInsuficiente() from None
     return True
 
