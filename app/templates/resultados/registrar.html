@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block titulo %}Registrar resultado{% endblock %}
+{% block contenido %}
+<h1>Resultado: {{ ev.local }} vs {{ ev.visitante }}</h1>
+<p>Estado: <span class="estado {{ ev|estado }}">{{ ev|estado }}</span> · premio por acierto: {{ ev.premio }}</p>
+<form method="post" class="form estrecho">
+  {% for o in opciones %}
+  <label style="flex-direction:row;gap:8px"><input type="radio" name="resultado" value="{{ o }}" required>
+    {{ o|describir(ev.local, ev.visitante) }}</label>
+  {% endfor %}
+  <div class="botones"><a class="boton secundario" href="/admin/eventos">Volver</a><button class="boton">Registrar y pagar premios</button></div>
+</form>
+{% endblock %}
