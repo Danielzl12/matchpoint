@@ -3,6 +3,8 @@
 **Equipo:** Equipo 3 · **Facilita:** Karla Martín (Scrum Master) · **Participan:** Daniel Zuluaga, Dana Quevedo, Sebastián Barreto
 **Tablero:** https://trello.com/b/LtNyZnp8/matchpoint (listas «Retro · …»)
 
+**Video de la retrospectiva:** [Retrospectiva-Sprint-2.mp4](Retrospectiva-Sprint-2.mp4)
+
 ## 1. Técnicas investigadas
 
 | Técnica | Cómo funciona | Cuándo conviene |
