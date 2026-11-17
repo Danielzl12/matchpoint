@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block titulo %}MatchPoint{% endblock %} · MatchPoint</title>
+  <meta name="theme-color" content="#dcebfa">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -11,19 +12,19 @@
   <a class="marca" href="/">MatchPoint</a>
   {% if usuario %}
   <nav>
-    <a href="/torneos">Torneos y eventos</a>
-    <a href="/mis-pronosticos">Mis pronósticos</a>
-    <a href="/mi-saldo">Mi saldo</a>
+    <a href="/torneos"{% if request.path.startswith("/torneos") %} class="activo"{% endif %}>Torneos y eventos</a>
+    <a href="/mis-pronosticos"{% if request.path.startswith("/mis-pronosticos") %} class="activo"{% endif %}>Mis pronósticos</a>
+    <a href="/mi-saldo"{% if request.path.startswith("/mi-saldo") %} class="activo"{% endif %}>Mi saldo</a>
     {% if usuario.rol == 'admin' %}
     <span class="sep">Admin</span>
-    <a href="/admin/torneos">Torneos</a>
-    <a href="/admin/eventos">Eventos</a>
-    <a href="/admin/creditos">Créditos</a>
-    <a href="/admin/saldos/corregir">Corregir saldo</a>
-    <a href="/admin/reportes">Reportes</a>
+    <a href="/admin/torneos"{% if request.path.startswith("/admin/torneos") %} class="activo"{% endif %}>Torneos</a>
+    <a href="/admin/eventos"{% if request.path.startswith("/admin/eventos") %} class="activo"{% endif %}>Eventos</a>
+    <a href="/admin/creditos"{% if request.path.startswith("/admin/creditos") %} class="activo"{% endif %}>Créditos</a>
+    <a href="/admin/saldos/corregir"{% if request.path.startswith("/admin/saldos/corregir") %} class="activo"{% endif %}>Corregir saldo</a>
+    <a href="/admin/reportes"{% if request.path.startswith("/admin/reportes") %} class="activo"{% endif %}>Reportes</a>
     {% endif %}
   </nav>
-  <span class="quien">{{ usuario.nombre }} · {{ usuario.saldo }} créditos · <a href="/salir">Salir</a></span>
+  <span class="quien">{{ usuario.nombre }} <span class="creditos">{{ usuario.saldo }} créditos</span> <a href="/salir">Salir</a></span>
   {% endif %}
 </header>
 <main>

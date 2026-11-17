@@ -15,7 +15,7 @@
   <button class="boton">Registrar corrección</button>
 </form>
 <h2>Últimas correcciones</h2>
-<table><tr><th>Fecha</th><th>Usuario</th><th>Detalle</th><th>Monto</th></tr>
+<div class="tabla"><table><tr><th>Fecha</th><th>Usuario</th><th>Detalle</th><th>Monto</th></tr>
 {% for a in ajustes %}<tr><td>{{ a.creado_en|fecha }}</td><td>{{ a.nombre }}</td><td>{{ a.detalle }}</td><td>{{ a.monto }}</td></tr>
-{% else %}<tr><td colspan="4">Sin correcciones.</td></tr>{% endfor %}</table>
+{% else %}<tr><td colspan="4">Sin correcciones.</td></tr>{% endfor %}</table></div>
 {% endblock %}

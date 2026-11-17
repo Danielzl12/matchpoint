@@ -3,11 +3,11 @@
 {% block contenido %}
 <h1>Mi saldo</h1>
 <p class="saldo">{{ total }} créditos</p>
-<table>
+<div class="tabla"><table>
   <tr><th>Fecha</th><th>Tipo</th><th>Detalle</th><th>Monto</th></tr>
   {% for m in movimientos %}
   <tr><td>{{ m.creado_en|fecha }}</td><td>{{ m.tipo }}</td><td>{{ m.detalle }}</td>
       <td class="{{ 'mas' if m.monto > 0 else 'menos' }}">{{ '+' if m.monto > 0 }}{{ m.monto }}</td></tr>
   {% else %}<tr><td colspan="4">Todavía no tienes movimientos.</td></tr>{% endfor %}
-</table>
+</table></div>
 {% endblock %}

@@ -4,7 +4,7 @@
 <h1>Torneos y eventos</h1>
 {% for torneo, evs in eventos|groupby('torneo') %}
 <h2>{{ torneo }}</h2>
-<table>
+<div class="tabla"><table>
   <tr><th>Partido</th><th>Cierra</th><th>Estado</th><th>Costo / Premio</th><th></th></tr>
   {% for e in evs %}
   <tr>
@@ -18,6 +18,6 @@
     </td>
   </tr>
   {% endfor %}
-</table>
+</table></div>
 {% else %}<p>Todavía no hay eventos programados.</p>{% endfor %}
 {% endblock %}

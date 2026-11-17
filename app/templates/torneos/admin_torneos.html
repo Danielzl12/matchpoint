@@ -2,12 +2,12 @@
 {% block titulo %}Torneos{% endblock %}
 {% block contenido %}
 <h1>Torneos</h1>
-<table>
+<div class="tabla"><table>
   <tr><th>Torneo</th><th>Tipo por defecto</th><th>Equipos</th></tr>
   {% for t in torneos %}
   <tr><td>{{ t.nombre }}</td><td>{{ tipos[t.tipo_defecto] }}</td><td>{{ t.equipos }}</td></tr>
   {% else %}<tr><td colspan="3">Aún no hay torneos.</td></tr>{% endfor %}
-</table>
+</table></div>
 <h2>Crear torneo</h2>
 <form method="post" class="form">
   <label>Nombre del torneo <input name="nombre" required></label>
