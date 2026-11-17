@@ -11,7 +11,7 @@
 <form method="post" class="form estrecho">
   <p>Cuesta <b>{{ ev.costo }}</b> créditos. Si aciertas ganas <b>{{ ev.premio }}</b>. Tu saldo: <b>{{ usuario.saldo }}</b>.</p>
   {% for o in opciones %}
-  <label style="flex-direction:row;gap:8px"><input type="radio" name="opcion" value="{{ o }}" required>
+  <label class="opcion"><input type="radio" name="opcion" value="{{ o }}" required>
     {{ o|describir(ev.local, ev.visitante) }}</label>
   {% endfor %}
   <div class="botones"><a class="boton secundario" href="/torneos">Volver</a><button class="boton">Confirmar pronóstico</button></div>

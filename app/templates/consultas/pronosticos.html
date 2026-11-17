@@ -2,7 +2,7 @@
 {% block titulo %}Mis pronósticos{% endblock %}
 {% block contenido %}
 <h1>Mis pronósticos</h1>
-<table>
+<div class="tabla"><table>
   <tr><th>Torneo</th><th>Partido</th><th>Mi pronóstico</th><th>Costo</th><th>Estado</th></tr>
   {% for p in pronosticos %}
   <tr><td>{{ p.torneo }}</td><td>{{ p.local }} vs {{ p.visitante }}</td>
@@ -10,5 +10,5 @@
       <td><span class="estado {{ 'cerrado' if p.estado == 'fallado' else 'abierto' if p.estado == 'acertado' else 'cancelado' if p.estado == 'anulado' else '' }}">{{ p.estado }}</span>
         {% if p.estado == 'acertado' %}(+{{ p.premio }}){% endif %}</td></tr>
   {% else %}<tr><td colspan="5">Aún no has hecho pronósticos. <a href="/torneos">Ver eventos</a></td></tr>{% endfor %}
-</table>
+</table></div>
 {% endblock %}
