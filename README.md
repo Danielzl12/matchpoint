@@ -10,6 +10,7 @@ Plataforma web de torneos y pronósticos deportivos con créditos virtuales (sin
 | Código fuente | https://github.com/Danielzl12/matchpoint |
 | Tablero de Trello (sprint y retrospectiva Starfish) | https://trello.com/b/LtNyZnp8/matchpoint |
 | Wiki (backlog, sprints y canvas de equipo) | https://github.com/Danielzl12/matchpoint/wiki |
+| Video de la retrospectiva | https://github.com/Danielzl12/matchpoint/blob/main/docs/Retrospectiva-Sprint-2.mp4 |
 
 ## Equipo
 
