@@ -1,6 +1,6 @@
 # MatchPoint
 
-Plataforma web de torneos y pronósticos deportivos con créditos virtuales (sin dinero real). Caso Nexo Digital Labs · Equipo 3 · Sprint 2.
+Plataforma web de torneos y pronósticos deportivos con créditos virtuales (sin dinero real). Caso Nexo Digital Labs · Equipo 3.
 
 ## Enlaces
 
@@ -36,7 +36,7 @@ Plataforma web de torneos y pronósticos deportivos con créditos virtuales (sin
 
 También se puede crear una cuenta nueva desde «Registrarme».
 
-## Historias de usuario del Sprint 2
+## Historias de usuario (Sprint 1)
 
 | HU | Historia | Responsable |
 |---|---|---|
