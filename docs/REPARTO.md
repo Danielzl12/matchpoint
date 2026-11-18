@@ -1,4 +1,4 @@
-# Quién sube qué (Sprint 2)
+# Quién sube qué (Sprint 1)
 
 Repositorio: https://github.com/Danielzl12/matchpoint (hoy está vacío: solo tiene la wiki).
 
