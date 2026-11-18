@@ -1,9 +1,9 @@
-# Retrospectiva del Sprint 2 — Starfish
+# Retrospectiva del Sprint 1 — Starfish
 
 **Equipo:** Equipo 3 · **Facilita:** Karla Martín (Scrum Master) · **Participan:** Daniel Zuluaga, Dana Quevedo, Sebastián Barreto
 **Tablero:** https://trello.com/b/LtNyZnp8/matchpoint (listas «Retro · …»)
 
-**Video de la retrospectiva:** [Retrospectiva-Sprint-2.mp4](Retrospectiva-Sprint-2.mp4)
+**Video de la retrospectiva:** [Retrospectiva-Sprint-1.mp4](Retrospectiva-Sprint-1.mp4)
 
 ## 1. Técnicas investigadas
 
@@ -19,7 +19,7 @@ Fuente de consulta: Retrium, *10 retrospective techniques to try with your agile
 
 ## 2. Resultado
 
-![Starfish del Sprint 2](Starfish-Retrospectiva.png)
+![Starfish del Sprint 1](Starfish-Retrospectiva.png)
 
 | Categoría | Ideas del equipo |
 |---|---|
